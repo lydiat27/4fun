@@ -12,3 +12,7 @@ No build step. Open `index.html` in a browser, or serve the folder:
 ```sh
 python3 -m http.server 8000
 ```
+
+## Live site
+
+Published with GitHub Pages at https://lydiat27.github.io/4fun/ (Settings → Pages → Deploy from a branch → `claude/keychain-builder-website-mqisik`, `/ (root)`).
