@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Keychain Studio</title>
+  <meta name="description" content="Build your own bag charm: pick a ring, tie a string, thread on clay charms.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="studio">
+    <p class="step-count" id="stepCount">1 / 4</p>
+    <p class="instruction" id="instruction"></p>
+
+    <div class="stage" id="stage">
+      <svg id="board" viewBox="0 0 400 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Your keychain">
+        <defs>
+          <radialGradient id="boardBg" cx="50%" cy="38%" r="75%">
+            <stop offset="0" stop-color="#eeeef0"/>
+            <stop offset="0.6" stop-color="#dcdcdf"/>
+            <stop offset="1" stop-color="#c9c9cd"/>
+          </radialGradient>
+          <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#fbfbfb"/>
+            <stop offset="0.3" stop-color="#a7a7aa"/>
+            <stop offset="0.55" stop-color="#f1f1f2"/>
+            <stop offset="0.8" stop-color="#85858a"/>
+            <stop offset="1" stop-color="#dcdcde"/>
+          </linearGradient>
+          <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#fff3c4"/>
+            <stop offset="0.3" stop-color="#c79a3c"/>
+            <stop offset="0.55" stop-color="#f7dc8f"/>
+            <stop offset="0.8" stop-color="#9c7024"/>
+            <stop offset="1" stop-color="#e7c46c"/>
+          </linearGradient>
+          <!-- glossy clay glaze: specular highlight from the alpha shape + soft shadow -->
+          <filter id="glaze" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="2.4" result="blur"/>
+            <feSpecularLighting in="blur" surfaceScale="5" specularConstant="1" specularExponent="26" lighting-color="#ffffff" result="spec">
+              <fePointLight x="-50" y="-90" z="120"/>
+            </feSpecularLighting>
+            <feComposite in="spec" in2="SourceAlpha" operator="in" result="specIn"/>
+            <feComposite in="SourceGraphic" in2="specIn" operator="arithmetic" k1="0" k2="1" k3="0.85" k4="0" result="lit"/>
+            <feGaussianBlur in="SourceAlpha" stdDeviation="2.5" result="sblur"/>
+            <feOffset in="sblur" dx="2" dy="4" result="soff"/>
+            <feComponentTransfer in="soff" result="shadow"><feFuncA type="linear" slope="0.28"/></feComponentTransfer>
+            <feMerge><feMergeNode in="shadow"/><feMergeNode in="lit"/></feMerge>
+          </filter>
+          <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="1.6" result="b"/>
+            <feOffset in="b" dx="1.5" dy="3" result="o"/>
+            <feComponentTransfer in="o" result="s"><feFuncA type="linear" slope="0.22"/></feComponentTransfer>
+            <feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="emboss" x="-20%" y="-20%" width="140%" height="140%">
+            <feOffset in="SourceAlpha" dx="-1" dy="-1" result="hi"/>
+            <feFlood flood-color="#ffffff" flood-opacity="0.9"/>
+            <feComposite in2="hi" operator="in" result="hiC"/>
+            <feOffset in="SourceAlpha" dx="1.2" dy="1.2" result="lo"/>
+            <feFlood flood-color="#8d8d92" flood-opacity="0.7"/>
+            <feComposite in2="lo" operator="in" result="loC"/>
+            <feMerge><feMergeNode in="hiC"/><feMergeNode in="loC"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <mask id="flowerHole" maskUnits="userSpaceOnUse" x="-40" y="-40" width="80" height="80">
+            <rect x="-40" y="-40" width="80" height="80" fill="#fff"/>
+            <circle r="5" fill="#000"/>
+          </mask>
+        </defs>
+        <rect width="400" height="600" fill="url(#boardBg)"/>
+        <g id="corners" fill="#d6d6d9" filter="url(#emboss)"></g>
+        <g id="keychain"></g>
+      </svg>
+    </div>
+
+    <div class="controls" id="controls"></div>
+
+    <div class="tools" id="tools">
+      <button type="button" class="text-btn" id="undoBtn">undo</button>
+      <button type="button" class="text-btn" id="resetBtn">start over</button>
+    </div>
+
+    <nav class="nav">
+      <button type="button" class="text-btn" id="backBtn">back</button>
+      <button type="button" class="pill pill-lg" id="nextBtn">next</button>
+    </nav>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
